@@ -6,11 +6,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Cart implements Storable {
-
+public abstract class AbstractCart implements Storable {
     private Long id;
-
-    private List<CartItem> goods;
+    protected List<CartItem> goods;
 
     public Long getId() {
         return id;
@@ -36,7 +34,7 @@ public class Cart implements Storable {
         }
     }
 
-    public boolean remove(Object o) {
+    public boolean remove(CartItem o) {
         return goods.remove(o);
     }
 
@@ -44,11 +42,5 @@ public class Cart implements Storable {
         goods.clear();
     }
 
-    public BigDecimal getTotalPrice() {
-        BigDecimal total = BigDecimal.ZERO;
-        for (CartItem c : goods) {
-            total = total.add(c.getItemPrice());
-        }
-        return total;
-    }
+    public abstract BigDecimal getTotalPrice();
 }

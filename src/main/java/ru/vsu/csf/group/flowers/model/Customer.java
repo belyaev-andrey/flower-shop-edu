@@ -1,5 +1,7 @@
 package ru.vsu.csf.group.flowers.model;
 
+import ru.vsu.csf.group.flowers.shopping.AbstractCart;
+
 public class Customer implements Storable {
 
     private Long id;
@@ -7,6 +9,8 @@ public class Customer implements Storable {
     private String login;
 
     private String deliveryAddress;
+
+    private AbstractCart cart;//TODO сконфигурировать нужную коррзину в зависимости от ...
 
     public Long getId() {
         return id;
@@ -30,5 +34,9 @@ public class Customer implements Storable {
 
     public void setDeliveryAddress(String deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public String GenerateBill() {
+        return cart.getTotalPrice().toString();
     }
 }
