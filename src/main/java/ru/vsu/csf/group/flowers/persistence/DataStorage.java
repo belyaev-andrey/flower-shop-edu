@@ -1,5 +1,8 @@
 package ru.vsu.csf.group.flowers.persistence;
 
+import ru.vsu.csf.group.flowers.exceptions.StoreException;
+import ru.vsu.csf.group.flowers.exceptions.StoreSaveException;
+import ru.vsu.csf.group.flowers.exceptions.StoreSearchException;
 import ru.vsu.csf.group.flowers.model.Flower;
 import ru.vsu.csf.group.flowers.model.FreshFlower;
 
@@ -9,11 +12,11 @@ import java.util.List;
 
 public class DataStorage {
 
-    public Flower saveFlower(Flower flower) {
+    public Flower saveFlower(Flower flower) throws StoreSaveException {
         try {
             return saveToDb(flower);
         } catch (SQLException exception) {
-            throw new RuntimeException("Cannot save flower", exception);
+            throw new StoreSaveException("Cannot save flower", exception);
         }
     }
 
@@ -33,7 +36,7 @@ public class DataStorage {
         return flower;
     }
 
-    public List<Flower> getAllFlowers() {
+    public List<Flower> getAllFlowers() throws StoreSearchException {
         List<Flower> result = new ArrayList<>();
         try (Connection connection = getConnection();) {
             PreparedStatement statement = connection.prepareStatement("select id, name, price, origin from flower");
@@ -48,7 +51,7 @@ public class DataStorage {
             }
             return result;
         } catch (SQLException exception) {
-            throw new RuntimeException("Cannot load flowers", exception);
+            throw new StoreSearchException("Cannot load flowers", exception);
         }
     }
 
